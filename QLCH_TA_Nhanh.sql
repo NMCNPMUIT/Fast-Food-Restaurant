@@ -315,3 +315,4 @@ insert into TAIKHOAN values('nv01','addmin','addmin')
 insert into TAIKHOAN values('nv02','2','2')
 insert into TAIKHOAN values('nv03','3','3')
 
+select * from PHIEUNHAP_TP

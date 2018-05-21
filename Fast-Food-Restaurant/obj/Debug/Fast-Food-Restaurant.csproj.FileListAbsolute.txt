@@ -45,3 +45,4 @@ C:\Users\N\Desktop\Fast-Food-Restaurant\Fast-Food-Restaurant\obj\Debug\Fast-Food
 C:\Users\N\Desktop\Fast-Food-Restaurant\Fast-Food-Restaurant\obj\Debug\Fast-Food-Restaurant.exe.licenses
 C:\Users\N\Desktop\Fast-Food-Restaurant\Fast-Food-Restaurant\obj\Debug\Fast-Food-Restaurant.exe
 C:\Users\N\Desktop\Fast-Food-Restaurant\Fast-Food-Restaurant\obj\Debug\Fast-Food-Restaurant.pdb
+C:\Users\N\Desktop\Fast-Food-Restaurant\Fast-Food-Restaurant\obj\Debug\Fast_Food_Restaurant.fHoaDonNhapHang.resources

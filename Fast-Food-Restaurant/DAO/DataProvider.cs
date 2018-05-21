@@ -18,7 +18,7 @@ namespace Fast_Food_Restaurant.DAO
             private set { instance = value; }
         }
         private DataProvider() { }
-        private string query = "Data Source=DESKTOP-KODMELM;Initial Catalog=NHA_HANG_AN;Integrated Security=True";
+        private string query = "Data Source=DESKTOP-KODMELM;Initial Catalog=QLCH_thucannhanh;Integrated Security=True";
         protected SqlConnection cnn;
         protected SqlCommand cm;
 
@@ -76,7 +76,6 @@ namespace Fast_Food_Restaurant.DAO
 
             return data;
         }
-
         public SqlDataReader ReadData(string ss, object[] parameter = null)
         {
             cnn = new SqlConnection();

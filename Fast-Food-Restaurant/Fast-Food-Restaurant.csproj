@@ -52,11 +52,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BUS\fHoaDonNhapHangBUS.cs" />
-    <Compile Include="BUS\fNhaPhanPhoiBUS.cs" />
     <Compile Include="DAO\DataProvider.cs" />
     <Compile Include="DAO\fHoaDonNhapHangDAO.cs" />
-    <Compile Include="DTO\FHoaDonNhapHang.cs" />
+    <Compile Include="DTO\fHoaDonNhapHangDTO.cs" />
+    <Compile Include="fDoanhThu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fDoanhThu.Designer.cs">
+      <DependentUpon>fDoanhThu.cs</DependentUpon>
+    </Compile>
     <Compile Include="fHoaDon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,7 +165,12 @@
   <ItemGroup>
     <None Include="Resources\baocaodoanhthu1.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Them.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sua.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

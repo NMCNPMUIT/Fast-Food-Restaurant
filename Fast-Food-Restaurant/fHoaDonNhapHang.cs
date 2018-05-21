@@ -13,23 +13,24 @@ namespace Fast_Food_Restaurant
 {
     public partial class fHoaDonNhapHang : DevExpress.XtraEditors.XtraForm
     {
+
         public fHoaDonNhapHang()
         {
             InitializeComponent();
         }
-
-        private void listView_DSPhieunhap_SelectedIndexChanged(object sender, EventArgs e)
+        
+        private void button_them_Click(object sender, EventArgs e)
         {
-            System.Collections.IEnumerator ie = listView_DSPhieunhap.SelectedItems.GetEnumerator();
-            if (ie.MoveNext())
-            {
-                ListViewItem item = (ListViewItem)ie.Current;
-                textBox_MP.Text = item.SubItems[1].Text;
-                comboBoxMANCC.Text = item.SubItems[2].Text;
-                textBox_MNV.Text = item.SubItems[3].Text;
-                dateTimePicker_NN.Text = item.SubItems[4].Text;
-                textBox_tongtien.Text = item.SubItems[5].Text;
+                DAO.fHoaDonNhapHangDAO.Instance.ThemHoaDonNhapHang(textBox_MP.Text,textBox_maNPP.Text,textBox_MNV.Text,dateTimePicker_NN, int.Parse(textBox_tongtien.Text));
+                MessageBox.Show("Thêm thành công", "Thông báo");
+        }
 
+        private void button_themCT_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn chắc chắc muốn thêm Hóa Đơn Nhập Hàng", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                dataGridView_CTPNhap.DataSource = DTO.fHoaDonNhapHangDTO.Instance.hienthi(textBox_maphieuCT.Text, textBox_MTP.Text, textBox_SL.Text, textBox_DG.Text);
+                MessageBox.Show("Thêm thành công", "Thông báo");
             }
         }
     }
