@@ -18,7 +18,7 @@ namespace Fast_Food_Restaurant.DAO
             private set { instance = value; }
         }
         private DataProvider() { }
-        private string query = "Data Source=DESKTOP-KODMELM;Initial Catalog=QLCH_thucannhanh;Integrated Security=True";
+        private string query = "Data Source=DESKTOP-KODMELM;Initial Catalog=QLCHTAN;Integrated Security=True";
         protected SqlConnection cnn;
         protected SqlCommand cm;
 
@@ -68,15 +68,14 @@ namespace Fast_Food_Restaurant.DAO
                         }
                     }
                 }
+                adapter = new SqlDataAdapter(cm);
+                adapter.Fill(data);
+                disconnect();
             }
-
-            adapter = new SqlDataAdapter(cm);
-            adapter.Fill(data);
-            disconnect();
 
             return data;
         }
-        public SqlDataReader ReadData(string ss, object[] parameter = null)
+        public SqlDataReader ReadData(string ss)
         {
             cnn = new SqlConnection();
 
@@ -112,33 +111,21 @@ namespace Fast_Food_Restaurant.DAO
                     }
                 }
 
+                data = cm.ExecuteNonQuery();
             }
-            data = cm.ExecuteNonQuery();
+
             disconnect();
             return data;
         }
-        public object ExecuteScalar(string sql, object[] parameter = null)
+        public object ExecuteScalar(string sql)
         {
             object data = 0;
             using (cnn = new SqlConnection(query))
             {
                 connect();
                 cm = new SqlCommand(sql, cnn);
-                if (parameter != null)
-                {
-                    string[] listPara = sql.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
-                    {
-                        if (item.Contains('@'))
-                        {
-                            cm.Parameters.AddWithValue(item, parameter[i]);
-                            i++;
-                        }
-                    }
-                }
-
             }
+           
             data = cm.ExecuteScalar();
             disconnect();
             return data;

@@ -15,7 +15,7 @@ CREATE TABLE NHANVIEN(
 CREATE TABLE MONAN(
 	MAMA	char(10) not null ,
 	TENMA	NVARCHAR(100),
-	GIATIEN	money,
+	GIATIEN	int,
 	MALOAI_MA char(10) ,
 	constraint pk_ma primary key(MAMA)
 )
@@ -64,7 +64,7 @@ CREATE TABLE HOADON(
 	NGHD 	smalldatetime,
 	MANV 	char(10),
 	MABA	char(10) ,
-	THANHTIEN	money,
+	THANHTIEN	int,
 	constraint pk_hd primary key(MAHD)
 )
 
@@ -74,7 +74,7 @@ CREATE TABLE HOADON(
 	MAHD	char(10),
 	MAMA	char(10),
 	SL		int,
-	DONGIA	money,
+	DONGIA	int,
 	constraint pk_cthd primary key(MAHD,MAMA)
 )
 
@@ -83,7 +83,7 @@ CREATE TABLE HOADON(
 CREATE TABLE THUCPHAM(
 	MATP	char(10) not null,
 	TENTP	varchar(40),
-	GIA	money,
+	GIA int,
 	DONVI varchar(20),
 	MANPP char(10),
 	constraint pk_tp primary key(MATP)	
@@ -105,7 +105,7 @@ CREATE TABLE NHAPHANPHOI(
 	NGNHAP 		smalldatetime,
 	MANPP		char(10),
 	MANV		char(10),
-	THANHTIEN	MONEY,
+	THANHTIEN	int,
 	constraint pk_pntp primary key(MAPHIEU)
 )
 
@@ -115,7 +115,7 @@ CREATE TABLE NHAPHANPHOI(
 	MAPHIEU		char(10),
 	MATP		char(10),
 	SL			int,
-	DONGIA		money,
+	DONGIA		int,
 	constraint pk_ctpntp primary key(MAPHIEU,MATP)
 )
 
@@ -302,9 +302,9 @@ insert into PHIEUNHAP_TP values('PN03',09/02/2007,'NPP04','NV04',500000)
 
 -------------------------------
 --CT_PHIEUNHAP_TP
-insert into CT_PHIEUNHAP_TP values('PN01','TP01',50,10000)
-insert into CT_PHIEUNHAP_TP values('PN01','TP02',50,10000)
-insert into CT_PHIEUNHAP_TP values('PN02','TP08',4,50000)
+insert into CT_PHIEUNHAP_TP values('PN01','TP01',50)
+insert into CT_PHIEUNHAP_TP values('PN01','TP02',50)
+insert into CT_PHIEUNHAP_TP values('PN02','TP08',4)
 insert into CT_PHIEUNHAP_TP values('PN02','TP011',30,10000)
 insert into CT_PHIEUNHAP_TP values('PN03','TP03',10,20000)
 insert into CT_PHIEUNHAP_TP values('PN03','TP04',20,15000)
@@ -315,4 +315,42 @@ insert into TAIKHOAN values('nv01','addmin','addmin')
 insert into TAIKHOAN values('nv02','2','2')
 insert into TAIKHOAN values('nv03','3','3')
 
-select * from PHIEUNHAP_TP
+select * from NHAPHANPHOI
+select * from CT_PHIEUNHAP_TP where MAPHIEU='PN04'
+
+insert into CT_PHIEUNHAP_TP values('PN01','TP03',10,20000)
+insert into CT_PHIEUNHAP_TP values('PN02','TP04',20,15000)
+insert into PHIEUNHAP_TP 	 values('PN06',09/02/2010,'NPP04','NV04',0)
+select * from PHIEUNHAP_TP 
+
+create trigger tr_updateHD on  CT_PHIEUNHAP_TP
+for INSERT as
+begin
+	Declare @DG int
+	Declare @S int
+	Declare @MP char(10)
+	Select @S = SL , @DG = DONGIA  , @MP=b.MAPHIEU
+	From PHIEUNHAP_TP a, inserted b
+	where  a.MAPHIEU=b.MAPHIEU 
+	update PHIEUNHAP_TP set THANHTIEN = (THANHTIEN + (@DG * @S) )where @MP= MAPHIEU 
+end
+
+create trigger tr_udateTP on THUCPHAM
+for insert as
+begin 
+	Declare @G money
+	Declare @MTP char(10)
+	SELECT	@G = GIA , @MTP= b.MATP
+	from CT_PHIEUNHAP_TP a, inserted b
+	where a.MATP=b.MATP
+	update  CT_PHIEUNHAP_TP set DONGIA= @G  where @MTP= MATP
+end
+
+drop trigger tr_udateTP
+--select DONGIA from THUCPHAM WHERE MANPP='NPP01'
+
+select GIA from THUCPHAM where MATP= 'TP02' 
+
+select * from CT_PHIEUNHAP_TP where MATP='TP014'
+insert into THUCPHAM values('TP014','bimbim',5000,'cái','NPP03')
+insert into CT_PHIEUNHAP_TP values('PN01','TP014',50,NULL)
