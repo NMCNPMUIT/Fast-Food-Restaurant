@@ -55,7 +55,7 @@ namespace Fast_Food_Restaurant.DTO
             set { dongia = value; }
         }
 
-        public void ThemHDNH(string a, string b, string c, DateTimePicker d)
+        public void ThemHoaDon(string a, string b, string c, DateTimePicker d)
         {
             DAO.fHoaDonNhapHangDAO.Instance.ThemHoaDonNhapHang(a, b, c, d.Value);
 

@@ -40,7 +40,7 @@ namespace Fast_Food_Restaurant
                 if (textBox_MP.Text != "" && comboBox_NPP.Text != "" && comboBox_NV.Text != "")
                 {
                     this.dataGridView_CTPNhap.Rows.Clear();
-                    DTO.fHoaDonNhapHangDTO.Instance.ThemHDNH(textBox_MP.Text, comboBox_NPP.Text, comboBox_NV.Text, dateTimePicker_NN);
+                    DTO.fHoaDonNhapHangDTO.Instance.ThemHoaDon(textBox_MP.Text, comboBox_NPP.Text, comboBox_NV.Text, dateTimePicker_NN);
                     MessageBox.Show("Thêm thành công", "Thông báo");
                     clear();
                 }
@@ -52,7 +52,7 @@ namespace Fast_Food_Restaurant
         }
 
         private void button_themCT_Click(object sender, EventArgs e)
-        {
+        { 
             if (DTO.fHoaDonNhapHangDTO.Instance.loadMATP(textBox_MP.Text,comboBox_TP.Text) != "0")
             {
                 MessageBox.Show("Thực phẩm đã mua trong phiếu này rồi. Mời nhập lại!", "Thông báo");
@@ -62,7 +62,9 @@ namespace Fast_Food_Restaurant
             {
                 if (comboBox_TP.Text != "" && textBox_SL.Text != "")
                 {
-                    DTO.fHoaDonNhapHangDTO.Instance.themCTPNH(textBox_maphieuCT.Text, comboBox_TP.Text, int.Parse(textBox_SL.Text), int.Parse(textBox_DG.Text));
+                    string dongia = textBox_DG.Text.Replace(",", "");
+                    int x = Convert.ToInt32(dongia);
+                    DTO.fHoaDonNhapHangDTO.Instance.themCTPNH(textBox_maphieuCT.Text, comboBox_TP.Text, int.Parse(textBox_SL.Text), x);
                     DTO.fHoaDonNhapHangDTO.Instance.hienthi(dataGridView_CTPNhap, textBox_maphieuCT.Text, comboBox_TP.Text);
                     clear();
                     MessageBox.Show("Thêm thành công", "Thông báo");
@@ -77,11 +79,11 @@ namespace Fast_Food_Restaurant
         }
 
         
+        
         public void loadcombobox()
         {
             DTO.fHoaDonNhapHangDTO.Instance.loadNPP(comboBox_NPP);
             DTO.fHoaDonNhapHangDTO.Instance.loadNV(comboBox_NV);
-            //DTO.fHoaDonNhapHangDTO.Instance.loadTP(comboBox_TP,comboBox_NPP.Text);
         }
 
         private void button_tongtien_Click(object sender, EventArgs e)
@@ -92,28 +94,31 @@ namespace Fast_Food_Restaurant
         private void textBox_MP_TextChanged(object sender, EventArgs e)
         {
             textBox_maphieuCT.Text = textBox_MP.Text;
-            //comboBox_TP.Text = "";
         }
 
         private void comboBox_TP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox_DG.Text = DTO.fHoaDonNhapHangDTO.Instance.loadDonGia(comboBox_TP.Text);
+            var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.loadDonGia(comboBox_TP.Text));
+            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            textBox_DG.Text = String.Format("{0:0,0}", value);
         }
 
         private void comboBox_NPP_SelectedIndexChanged(object sender, EventArgs e)
         {
+            clear();
             comboBox_TP.Items.Clear();
             DTO.fHoaDonNhapHangDTO.Instance.loadTP(comboBox_TP, comboBox_NPP.Text);
         }
 
         private void textBox_DG_TextChanged(object sender, EventArgs e)
         {
-            textBox_DG.Text = string.Format("{0:0,0}", textBox_DG.Text);
+            //textBox_DG.Text = string.Format("{0:0,0}", textBox_DG.Text);
+            
         }
 
-        //private void textBox_DG_TextChanged(object sender, EventArgs e)
-        //{
-        //    //DTO.fHoaDonNhapHangDTO.Instance.loadDonGia(textBox_DG.Text,comboBox_TP.Text);
-        //}
+        private void button_thoat_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

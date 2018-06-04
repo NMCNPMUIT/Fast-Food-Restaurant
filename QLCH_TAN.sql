@@ -1,5 +1,4 @@
-﻿
----------------------------------------------
+﻿---------------------------------------------
 -- NHANVIEN
 CREATE TABLE NHANVIEN(
 	MANV	char(10) not null,	
@@ -180,11 +179,11 @@ insert into LOAINHANVIEN values('LNV02','nhanvien')
 
 -------------------------------
 -- NHANVIEN
-insert into nhanvien values('NV01','Nguyen Nhu Nhut','927345678',13/04/2006,'LNV01')
-insert into nhanvien values('NV02','Le Thi Phi Yen','987567390',21/04/2006,'LNV02')
-insert into nhanvien values('NV03','Nguyen Van B','997047382',27/04/2006,'LNV02')
-insert into nhanvien values('NV04','Ngo Thanh Tuan','913758498',24/06/2006,'LNV02')
-insert into nhanvien values('NV05','Nguyen Thi Truc Thanh','918590387',20/07/2006,'LNV02')
+insert into nhanvien values('NV01','Nguyen Nhu Nhut','927345678','13-04-2006','LNV01')
+insert into nhanvien values('NV02','Le Thi Phi Yen','987567390','21-04-2006','LNV02')
+insert into nhanvien values('NV03','Nguyen Van B','997047382','27-04-2006','LNV02')
+insert into nhanvien values('NV04','Ngo Thanh Tuan','913758498','24-06-2006','LNV02')
+insert into nhanvien values('NV05','Nguyen Thi Truc Thanh','918590387','20-07-2006','LNV02')
 
 -------------------------------
 --NHAPHANPHOI
@@ -263,9 +262,9 @@ insert into BANAN values('MABA08','bàn 8','trống')
 
 ---------------------------------------------
 --PHIEU_YEUCAU
-insert into PHIEU_YC values('MYC01',13/02/2007,'MABA01','NV01')
-insert into PHIEU_YC values('MYC02',14/02/2007,'MABA02','NV01')
-insert into PHIEU_YC values('MYC03',15/02/2007,'MABA04','NV02')
+insert into PHIEU_YC values('MYC01','13-02-2007','MABA01','NV01')
+insert into PHIEU_YC values('MYC02','14-02-2007','MABA02','NV01')
+insert into PHIEU_YC values('MYC03','15-02-2007','MABA04','NV02')
 
 ---------------------------------------------
 --CT_PHIEU_YC
@@ -278,10 +277,10 @@ insert into CT_PHIEU_YC values('MYC03','MA010',4)
 
 -------------------------------
 --HOADON
-insert into HOADON values('HD01',14/02/2007,'NV01','MABA01',43000)
-insert into HOADON values('HD02',14/02/2007,'NV02','MABA02',50000)
-insert into HOADON values('HD03',14/02/2007,'NV03',null,75000)
-insert into HOADON values('HD04',15/02/2007,'NV03','MABA04',160000)
+insert into HOADON values('HD01','14-02-2007','NV01','MABA01',43000)
+insert into HOADON values('HD02','14-02-2007','NV02','MABA02',50000)
+insert into HOADON values('HD03','14-02-2007','NV03',null,75000)
+insert into HOADON values('HD04','15-02-2007','NV03','MABA04',160000)
 
 -------------------------------
 -- CTHD
@@ -296,32 +295,25 @@ insert into CTHD values('HD04','MA010',4,15000)
 
 -------------------------------
 --PHIEUNHAP_TP(
-insert into PHIEUNHAP_TP values('PN01',20/01/2007,'NPP01','NV03',1000000)
-insert into PHIEUNHAP_TP values('PN02',27/01/2007,'NPP03','NV05',500000)
-insert into PHIEUNHAP_TP values('PN03',09/02/2007,'NPP04','NV04',500000)
+insert into PHIEUNHAP_TP values('PN01','20-01-2007','NPP01','NV03',1000000)
+insert into PHIEUNHAP_TP values('PN02','27-01-2007','NPP03','NV05',500000)
+insert into PHIEUNHAP_TP values('PN03','09-02-2007','NPP04','NV04',500000)
 
 -------------------------------
 --CT_PHIEUNHAP_TP
-insert into CT_PHIEUNHAP_TP values('PN01','TP01',50)
-insert into CT_PHIEUNHAP_TP values('PN01','TP02',50)
-insert into CT_PHIEUNHAP_TP values('PN02','TP08',4)
+insert into CT_PHIEUNHAP_TP values('PN01','TP01',50 ,10000)
+insert into CT_PHIEUNHAP_TP values('PN01','TP02',50 ,10000)
+insert into CT_PHIEUNHAP_TP values('PN02','TP08',4 ,50000)
 insert into CT_PHIEUNHAP_TP values('PN02','TP011',30,10000)
 insert into CT_PHIEUNHAP_TP values('PN03','TP03',10,20000)
 insert into CT_PHIEUNHAP_TP values('PN03','TP04',20,15000)
-
+insert into CT_PHIEUNHAP_TP values('PN03','TP05',20,10000)
 -------------------------------
 --TAIKHOAN
 insert into TAIKHOAN values('nv01','addmin','addmin')
 insert into TAIKHOAN values('nv02','2','2')
 insert into TAIKHOAN values('nv03','3','3')
 
-select * from NHAPHANPHOI
-select * from CT_PHIEUNHAP_TP where MAPHIEU='PN04'
-
-insert into CT_PHIEUNHAP_TP values('PN01','TP03',10,20000)
-insert into CT_PHIEUNHAP_TP values('PN02','TP04',20,15000)
-insert into PHIEUNHAP_TP 	 values('PN06',09/02/2010,'NPP04','NV04',0)
-select * from PHIEUNHAP_TP 
 
 create trigger tr_updateHD on  CT_PHIEUNHAP_TP
 for INSERT as
@@ -335,22 +327,58 @@ begin
 	update PHIEUNHAP_TP set THANHTIEN = (THANHTIEN + (@DG * @S) )where @MP= MAPHIEU 
 end
 
-create trigger tr_udateTP on THUCPHAM
+create trigger tr_udateTP on CT_PHIEUNHAP_TP
 for insert as
 begin 
-	Declare @G money
+	Declare @G int
 	Declare @MTP char(10)
 	SELECT	@G = GIA , @MTP= b.MATP
-	from CT_PHIEUNHAP_TP a, inserted b
+	from THUCPHAM a, inserted b
 	where a.MATP=b.MATP
 	update  CT_PHIEUNHAP_TP set DONGIA= @G  where @MTP= MATP
 end
 
-drop trigger tr_udateTP
---select DONGIA from THUCPHAM WHERE MANPP='NPP01'
+create trigger tr_udateMA on CTHD
+for insert as
+begin 
+	Declare @G int
+	Declare @MMA char(10)
+	SELECT	@G = DONGIA , @MMA= b.MAMA
+	from MONAN a, inserted b
+	where a.MAMA=b.MAMA
+	update  CTHD set DONGIA= @G  where @MMA= MAMA
+end
 
-select GIA from THUCPHAM where MATP= 'TP02' 
+create trigger tr_updateHDBH on  CTHD
+for INSERT as
+begin
+	Declare @DG int
+	Declare @S int
+	Declare @MP char(10)
+	Select @S = SL , @DG = DONGIA  , @MP=b.MAHD
+	From HOADON a, inserted b
+	where  a.MAHD=b.MAHD 
+	update HOADON set THANHTIEN = (THANHTIEN + (@DG * @S) )where @MP= MAHD
+end
 
-select * from CT_PHIEUNHAP_TP where MATP='TP014'
-insert into THUCPHAM values('TP014','bimbim',5000,'cái','NPP03')
-insert into CT_PHIEUNHAP_TP values('PN01','TP014',50,NULL)
+select* from PHIEUNHAP_TP where MAPHIEU='MP08'
+select count(*) as SoLuong from PHIEUNHAP_TP where MAPHIEU='PN02'
+select * from CT_PHIEUNHAP_TP where MAPHIEU='PN06'
+select * from HOADON
+select * from MONAN
+delete from PHIEUNHAP_TP where MAPHIEU='MP01'or MAPHIEU='MP02'or MAPHIEU='MP03'or MAPHIEU='PN04'or MAPHIEU='PN05'or MAPHIEU='PN06'or MAPHIEU='PN07'or MAPHIEU='PN08'or MAPHIEU='PN09'
+delete from HOADON where MAHD='HD07'or MAHD='HD06' or MAHD='HD07' or MAHD='HD08'
+select * from PHIEUNHAP_TP
+select * from CTHD where MAHD= 'HD01' and MAMA='MA01'
+insert into CTHD values('HD01','MA03',1,0)
+delete from CTHD where MAHD='HD01'and MAMA='MA03'
+
+select day(NGHD), sum(THANHTIEN) 
+ from HOADON where month(NGHD)= 06 and year(NGHD)=2018 
+ group By day(NGHD)
+
+ insert into HOADON values('HD016','2017/05/03','NV03','MABA04',160000)
+
+ select GETDATE()
+
+ SELECT CONVERT(smalldatetime, NGHD, 103) from HOADON where MAHD='HD07';

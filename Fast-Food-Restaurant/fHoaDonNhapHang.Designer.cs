@@ -52,6 +52,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.button_thoat = new System.Windows.Forms.Button();
             this.textBox_tongtien = new System.Windows.Forms.TextBox();
             this.button_tongtien = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -215,7 +216,7 @@
             this.groupBox_CTPnhap.Controls.Add(this.label2);
             this.groupBox_CTPnhap.Location = new System.Drawing.Point(391, 3);
             this.groupBox_CTPnhap.Name = "groupBox_CTPnhap";
-            this.groupBox_CTPnhap.Size = new System.Drawing.Size(420, 253);
+            this.groupBox_CTPnhap.Size = new System.Drawing.Size(417, 253);
             this.groupBox_CTPnhap.TabIndex = 14;
             this.groupBox_CTPnhap.TabStop = false;
             this.groupBox_CTPnhap.Text = "Thông tin chi tiết phiếu nhập";
@@ -322,6 +323,8 @@
             // 
             // panel4
             // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.panel4.Controls.Add(this.button_thoat);
             this.panel4.Controls.Add(this.textBox_tongtien);
             this.panel4.Controls.Add(this.button_tongtien);
             this.panel4.Location = new System.Drawing.Point(1, 3);
@@ -329,10 +332,25 @@
             this.panel4.Size = new System.Drawing.Size(387, 254);
             this.panel4.TabIndex = 16;
             // 
+            // button_thoat
+            // 
+            this.button_thoat.BackColor = System.Drawing.Color.RosyBrown;
+            this.button_thoat.Font = new System.Drawing.Font("Times New Roman", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_thoat.Image = global::Fast_Food_Restaurant.Properties.Resources.exit_icon;
+            this.button_thoat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button_thoat.Location = new System.Drawing.Point(133, 177);
+            this.button_thoat.Name = "button_thoat";
+            this.button_thoat.Size = new System.Drawing.Size(106, 42);
+            this.button_thoat.TabIndex = 21;
+            this.button_thoat.Text = "Thoát";
+            this.button_thoat.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_thoat.UseVisualStyleBackColor = false;
+            this.button_thoat.Click += new System.EventHandler(this.button_thoat_Click);
+            // 
             // textBox_tongtien
             // 
             this.textBox_tongtien.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_tongtien.Location = new System.Drawing.Point(28, 166);
+            this.textBox_tongtien.Location = new System.Drawing.Point(54, 105);
             this.textBox_tongtien.Name = "textBox_tongtien";
             this.textBox_tongtien.ReadOnly = true;
             this.textBox_tongtien.Size = new System.Drawing.Size(267, 32);
@@ -344,7 +362,7 @@
             this.button_tongtien.BackColor = System.Drawing.Color.Aqua;
             this.button_tongtien.Font = new System.Drawing.Font("Times New Roman", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_tongtien.ForeColor = System.Drawing.Color.DarkBlue;
-            this.button_tongtien.Location = new System.Drawing.Point(126, 92);
+            this.button_tongtien.Location = new System.Drawing.Point(152, 20);
             this.button_tongtien.Name = "button_tongtien";
             this.button_tongtien.Size = new System.Drawing.Size(87, 40);
             this.button_tongtien.TabIndex = 0;
@@ -469,5 +487,6 @@
         private System.Windows.Forms.Label labelMNV;
         private System.Windows.Forms.Label labelMP;
         private System.Windows.Forms.ComboBox comboBox_TP;
+        private System.Windows.Forms.Button button_thoat;
     }
 }

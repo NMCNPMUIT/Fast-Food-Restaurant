@@ -20,7 +20,7 @@ namespace Fast_Food_Restaurant
 
             BonusSkins.Register();
             SkinManager.EnableFormSkins();
-            Application.Run(new fHoaDonNhapHang());
+            Application.Run(new fDoanhThu());
         }
     }
 }

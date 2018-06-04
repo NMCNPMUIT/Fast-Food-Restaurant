@@ -53,8 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\DataProvider.cs" />
+    <Compile Include="DAO\fDoanhthuDAO.cs" />
     <Compile Include="DAO\fHoaDonNhapHangDAO.cs" />
+    <Compile Include="DAO\fPhieuBanHangDAO.cs" />
+    <Compile Include="DTO\fDoanhthuDTO.cs" />
     <Compile Include="DTO\fHoaDonNhapHangDTO.cs" />
+    <Compile Include="DTO\fPhieuBanHangDTO.cs" />
     <Compile Include="fDoanhThu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +85,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="fDoanhThu.resx">
+      <DependentUpon>fDoanhThu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fHoaDon.resx">
       <DependentUpon>fHoaDon.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Sua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
