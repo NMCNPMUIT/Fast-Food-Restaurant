@@ -21,35 +21,57 @@ namespace Fast_Food_Restaurant.DAO
 
         public DataTable thongke(string  thang,string nam)
         {
-            string sql = "";
+            DataTable data =  null;
             if (thang!="" && nam!="")
             {
-                sql = "select DAY(NGHD) as ngày, sum(THANHTIEN) as Tổng from HOADON where month(NGHD)= '" + thang + "' and year(NGHD)='" + nam + "' group By day(NGHD)";
+                object[] parameter = new object[2];
+                SqlParameter p1 = new SqlParameter("@THANG", thang);
+                SqlParameter p2 = new SqlParameter("@NAM", nam);
+                parameter[0] = p1;
+                parameter[1] = p2;
+                data = DataProvider.Instance.ExecuteQuery("THONGKE_THANG_NAM", parameter);
             }
             else if (thang=="" && nam!="")
             {
-                sql = "select month(NGHD) as tháng, sum(THANHTIEN) as Tổng from HOADON where  year(NGHD)='" + nam + "' group By month(NGHD)";
+                object[] parameter = new object[1];
+                SqlParameter p1 = new SqlParameter("@NAM", nam);
+                parameter[0] = p1;
+                data = DataProvider.Instance.ExecuteQuery("THONGKE_NAM", parameter);
+                
             }
-           
-            DataTable data = DataProvider.Instance.ExecuteQuery(sql);
             return data;
         }
+
         public DataTable thongketheoSP(string ngay, string thang,string nam)
         {
-            string Sql="";
+            DataTable data = null;
             if (ngay!="" && thang!="" && nam!="")
             {
-                Sql = "select CTHD.MAMA as 'mã món ăn', sum(HOADON.THANHTIEN) as tổng from HOADON join CTHD on HOADON.MAHD = CTHD.MAHD where day(HOADON.NGHD) = '" + ngay + "' and MONTH(HOADON.NGHD) = '" + thang + "' and year(HOADON.NGHD) = '" + nam + "' group By CTHD.MAMA";
+                object[] parameter = new object[3];
+                SqlParameter p1 = new SqlParameter("@NGAY",ngay);
+                SqlParameter p2 = new SqlParameter("@THANG", thang);
+                SqlParameter p3 = new SqlParameter("@NAM", nam);
+                parameter[0] = p1;
+                parameter[1] = p2;
+                parameter[2] = p3;
+                data = DataProvider.Instance.ExecuteQuery("THONGKE_SP_NGAY_THANG_NAM", parameter);
             }
             if (ngay == "" && thang != "" && nam != "")
             {
-                Sql = "select CTHD.MAMA as 'mã món ăn', sum(HOADON.THANHTIEN) as tổng from HOADON join CTHD on HOADON.MAHD = CTHD.MAHD where  MONTH(HOADON.NGHD) = '" + thang + "' and year(HOADON.NGHD) = '" + nam + "' group By CTHD.MAMA";
+                object[] parameter = new object[2];
+                SqlParameter p1 = new SqlParameter("@THANG", thang);
+                SqlParameter p2 = new SqlParameter("@NAM", nam);
+                parameter[0] = p1;
+                parameter[1] = p2;
+                data = DataProvider.Instance.ExecuteQuery("THONGKE_SP_THANG_NAM", parameter);
             }
             if (ngay == "" && thang == "" && nam != "")
             {
-                Sql = "select CTHD.MAMA as 'mã món ăn', sum(HOADON.THANHTIEN) as tổng from HOADON join CTHD on HOADON.MAHD = CTHD.MAHD where year(HOADON.NGHD) = '" + nam + "' group By CTHD.MAMA";
+                object[] parameter = new object[1];
+                SqlParameter p1 = new SqlParameter("@NAM", nam);
+                parameter[0] = p1;
+                data = DataProvider.Instance.ExecuteQuery("THONGKE_SP_NAM", parameter);
             }
-            DataTable data = DataProvider.Instance.ExecuteQuery(Sql);
             return data;
         }
     }

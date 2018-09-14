@@ -18,7 +18,8 @@ namespace Fast_Food_Restaurant.DAO
             private set { instance = value; }
         }
         private DataProvider() { }
-        private string query = "Data Source=DESKTOP-KODMELM;Initial Catalog=QLCHTAN;Integrated Security=True";
+        private string query = Program.str_query;
+       
         protected SqlConnection cnn;
         protected SqlCommand cm;
 
@@ -33,10 +34,6 @@ namespace Fast_Food_Restaurant.DAO
         }
 
         protected SqlDataAdapter adapter;
-
-        //protected SqlDataAdapter adapter;
-
-
 
         protected void connect()
         {
@@ -55,17 +52,12 @@ namespace Fast_Food_Restaurant.DAO
             {
                 connect();
                 cm = new SqlCommand(sql, cnn);
+                cm.CommandType = CommandType.StoredProcedure;
                 if (parameter != null)
                 {
-                    string[] listPara = sql.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
+                    foreach (object item in parameter)
                     {
-                        if (item.Contains('@'))
-                        {
-                            cm.Parameters.AddWithValue(item, parameter[i]);
-                            i++;
-                        }
+                        cm.Parameters.Add(item);
                     }
                 }
                 adapter = new SqlDataAdapter(cm);
@@ -97,20 +89,14 @@ namespace Fast_Food_Restaurant.DAO
             {
                 connect();
                 cm = new SqlCommand(sql, cnn);
+                cm.CommandType = CommandType.StoredProcedure;
                 if (parameter != null)
                 {
-                    string[] listPara = sql.Split(' ');
-                    int i = 0;
-                    foreach (string item in listPara)
+                    foreach (object item in parameter)
                     {
-                        if (item.Contains('@'))
-                        {
-                            cm.Parameters.AddWithValue(item, parameter[i]);
-                            i++;
-                        }
+                        cm.Parameters.Add(item);
                     }
                 }
-
                 data = cm.ExecuteNonQuery();
             }
 

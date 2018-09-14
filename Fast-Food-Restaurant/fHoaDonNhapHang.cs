@@ -3,122 +3,289 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 
 namespace Fast_Food_Restaurant
 {
-    public partial class fHoaDonNhapHang : DevExpress.XtraEditors.XtraForm
+    public partial class fHoaDonNhapHang : Form
     {
-
-        public fHoaDonNhapHang()
+        string New_hoadon;
+        string account;
+        public fHoaDonNhapHang(string str_account)
         {
             InitializeComponent();
             loadcombobox();
+            LAY_MAPHIEU_NHAPTP();
+            New_hoadon = New_hoadon = this.combobox_Phieunhaphang.Items[this.combobox_Phieunhaphang.Items.Count - 1].ToString();
+            account = str_account;
         }
 
-        private void clear()
+        public void LAY_MAPHIEU_NHAPTP()
         {
-            textBox_SL.Text = "";
-            textBox_DG.Text = "";
-            comboBox_TP.Text = "";
-
+            txt_Maphieunhaphang.Text = DTO.fHoaDonNhapHangDTO.Instance.LAY_MAPHIEU_NHAPTP();
         }
-        private void button_them_Click(object sender, EventArgs e)
+
+        private void fHoaDonNhapHang_Load(object sender, EventArgs e)
         {
-            if (DTO.fHoaDonNhapHangDTO.Instance.loadMaPhieu(textBox_MP.Text)!="0")
-            {
-                MessageBox.Show("Mã phiếu đã có. Mời nhập lại!", "Thông báo");
-                textBox_MP.Text = "";
-            }
-            else
-            {
-                clear();
-                if (textBox_MP.Text != "" && comboBox_NPP.Text != "" && comboBox_NV.Text != "")
-                {
-                    this.dataGridView_CTPNhap.Rows.Clear();
-                    DTO.fHoaDonNhapHangDTO.Instance.ThemHoaDon(textBox_MP.Text, comboBox_NPP.Text, comboBox_NV.Text, dateTimePicker_NN);
-                    MessageBox.Show("Thêm thành công", "Thông báo");
-                    clear();
-                }
-                else
-                    MessageBox.Show("Bạn nhập chưa đủ thông tin", "Thông báo");
-            }
-            
 
         }
 
-        private void button_themCT_Click(object sender, EventArgs e)
-        { 
-            if (DTO.fHoaDonNhapHangDTO.Instance.loadMATP(textBox_MP.Text,comboBox_TP.Text) != "0")
-            {
-                MessageBox.Show("Thực phẩm đã mua trong phiếu này rồi. Mời nhập lại!", "Thông báo");
-               
-            }
-            else
-            {
-                if (comboBox_TP.Text != "" && textBox_SL.Text != "")
-                {
-                    string dongia = textBox_DG.Text.Replace(",", "");
-                    int x = Convert.ToInt32(dongia);
-                    DTO.fHoaDonNhapHangDTO.Instance.themCTPNH(textBox_maphieuCT.Text, comboBox_TP.Text, int.Parse(textBox_SL.Text), x);
-                    DTO.fHoaDonNhapHangDTO.Instance.hienthi(dataGridView_CTPNhap, textBox_maphieuCT.Text, comboBox_TP.Text);
-                    clear();
-                    MessageBox.Show("Thêm thành công", "Thông báo");
-                }
-                else
-                {
-                    MessageBox.Show("Bạn nhập chưa đủ thông tin", "Thông báo");
-                }
-                
-            }
-            
-        }
-
-        
-        
         public void loadcombobox()
         {
-            DTO.fHoaDonNhapHangDTO.Instance.loadNPP(comboBox_NPP);
-            DTO.fHoaDonNhapHangDTO.Instance.loadNV(comboBox_NV);
+            DTO.fHoaDonNhapHangDTO.Instance.loadNPP(this.combobox_NPP);
+            DTO.fHoaDonNhapHangDTO.Instance.loadNV(this.comboBox_MANV);
+            DTO.fHoaDonNhapHangDTO.Instance.loadPhieunhaphang(this.combobox_Phieunhaphang);
+            DTO.fHoaDonNhapHangDTO.Instance.loadcomboboxTenTP(this.comboBox_TenTP);
         }
 
-        private void button_tongtien_Click(object sender, EventArgs e)
+        private void comboBox_TenTP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox_tongtien.Text = DTO.fHoaDonNhapHangDTO.Instance.loadTongTien(textBox_MP.Text);
-        }
-
-        private void textBox_MP_TextChanged(object sender, EventArgs e)
-        {
-            textBox_maphieuCT.Text = textBox_MP.Text;
-        }
-
-        private void comboBox_TP_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.loadDonGia(comboBox_TP.Text));
+            var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.loadDonGia(this.comboBox_TenTP.Text));
             var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
-            textBox_DG.Text = String.Format("{0:0,0}", value);
+            this.txt_dongia.Text = String.Format("{0:0,0} đồng", value);
         }
 
-        private void comboBox_NPP_SelectedIndexChanged(object sender, EventArgs e)
+        private void btn_Themphieunhaphang_Click(object sender, EventArgs e)
         {
-            clear();
-            comboBox_TP.Items.Clear();
-            DTO.fHoaDonNhapHangDTO.Instance.loadTP(comboBox_TP, comboBox_NPP.Text);
+            if (this.comboBox_MANV.Text != "----Chọn mã nhân viên----" || this.combobox_NPP.Text != "---Chọn nhà phân phối---")
+            {
+                this.dataGridView_CTPNhap.Rows.Clear();
+                DTO.fHoaDonNhapHangDTO.Instance.ThemPhieuNhapHang(this.txt_Maphieunhaphang.Text, this.combobox_NPP.Text, this.comboBox_MANV.Text, this.dateTimePicker_ngayHDNH);
+                MessageBox.Show("Thêm thành công", "Thông báo");
+
+                DTO.fHoaDonNhapHangDTO.Instance.loadPhieunhaphang(this.combobox_Phieunhaphang);
+                this.comboBox_TenTP.Enabled = true;
+                this.txt_SL.Enabled = true;
+                this.combobox_NPP.Enabled = false;
+                this.comboBox_MANV.Enabled = false;
+                this.dateTimePicker_ngayHDNH.Enabled = false;
+                txt_CTMaphieunhaphang.Text = this.txt_Maphieunhaphang.Text;
+                this.btn_Themphieunhaphang.Enabled = false;
+                this.btn_NewHD.Enabled = true;
+            }
+            else
+                MessageBox.Show("Bạn nhập chưa đủ thông tin", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void textBox_DG_TextChanged(object sender, EventArgs e)
+        
+
+        private void txt_SL_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //textBox_DG.Text = string.Format("{0:0,0}", textBox_DG.Text);
-            
+            if (!Char.IsDigit(e.KeyChar) && !Char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == 46)
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == 13)
+            {
+                btn_CapnhatTP_Click(sender, e);
+            }
         }
 
-        private void button_thoat_Click(object sender, EventArgs e)
+        private void btn_CapnhatTP_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (this.comboBox_TenTP.Text != "-------Chọn thực phẩm-------" && this.txt_SL.Text != "")
+            {
+                if (int.Parse(this.txt_SL.Text) == 0)
+                {
+                    MessageBox.Show("Số lượng không thể bằng 0!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (DTO.fHoaDonNhapHangDTO.Instance.KiemTraTENTP(this.txt_CTMaphieunhaphang.Text, this.comboBox_TenTP.Text) != "0")
+                    {
+                        DialogResult result = MessageBox.Show("Thực phẩm này đã mua được mua trong phiếu này rồi. Bạn có muốn cập nhật lại số lượng không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            DTO.fHoaDonNhapHangDTO.Instance.CapNhat_CT_PHIEUNHAPTHUCPHAM(this.txt_CTMaphieunhaphang.Text, this.comboBox_TenTP.Text, int.Parse(this.txt_SL.Text));
+                            dataGridView_CTPNhap.Rows.Clear();
+                            DTO.fHoaDonNhapHangDTO.Instance.HienThi_CT_PHIEUNHAPTHUCPHAM(dataGridView_CTPNhap, this.txt_CTMaphieunhaphang.Text);
+                             MessageBox.Show("Cập nhật thực phẩm thành công", "Thông báo");
+                            var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.LAY_THANHTIEN_HOADONNHAPHANG(this.txt_CTMaphieunhaphang.Text));
+                            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                            this.txt_tongtien.Text = String.Format("{0:0,0}", value) + " đồng";
+                        }
+
+                    }
+                    else
+                    {
+                        string str = this.txt_dongia.Text.Replace(" đồng", "");
+                        string dongia = str.Replace(",", "");
+                        int Dongia = Convert.ToInt32(dongia);
+                        DTO.fHoaDonNhapHangDTO.Instance.ThemCTPNH(this.txt_CTMaphieunhaphang.Text, this.comboBox_TenTP.Text,int.Parse(this.txt_SL.Text), Dongia);
+                        DTO.fHoaDonNhapHangDTO.Instance.hienthi(dataGridView_CTPNhap, txt_Maphieunhaphang.Text, this.comboBox_TenTP.Text);
+                        var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.LAY_THANHTIEN_HOADONNHAPHANG(this.txt_CTMaphieunhaphang.Text));
+                        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                        this.txt_tongtien.Text = String.Format("{0:0,0}", value) + " đồng";
+                        MessageBox.Show("Thêm thực phẩm thành công", "Thông báo");
+                        this.comboBox_TenTP.Text = "-------Chọn thực phẩm-------";
+                        this.txt_SL.Text = "";
+                        this.txt_dongia.Text = "";
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Bạn chưa nhập đầy đủ thông tin!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void dateTimePicker_ngayHD_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_TimkiemPhieunhaphang_Click(object sender, EventArgs e)
+        {
+            if (this.combobox_Phieunhaphang.Text != "---Tìm kiếm phiếu nhập hàng---")
+            {
+                this.txt_CTMaphieunhaphang.Text = "";
+                this.comboBox_TenTP.Text = "-------Chọn thực phẩm-------";
+                this.txt_SL.Text = "";
+                this.txt_tongtien.Text = "";
+                this.txt_dongia.Text = "";
+                dataGridView_CTPNhap.Rows.Clear();
+                DTO.fHoaDonNhapHangDTO.Instance.TimKiemPhieuNhapHang_MAPHIEU(this.combobox_Phieunhaphang.Text,this.txt_Maphieunhaphang,this.txt_CTMaphieunhaphang,this.comboBox_MANV,this.combobox_NPP,this.dateTimePicker_ngayHDNH);
+                DTO.fHoaDonNhapHangDTO.Instance.HienThi_CT_PHIEUNHAPTHUCPHAM(dataGridView_CTPNhap, this.txt_CTMaphieunhaphang.Text);
+                this.comboBox_MANV.Enabled = false;
+                this.combobox_NPP.Enabled = false;
+                this.dateTimePicker_ngayHDNH.Enabled = false;
+                var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.LAY_THANHTIEN_HOADONNHAPHANG(this.txt_CTMaphieunhaphang.Text));
+                var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                this.txt_tongtien.Text = String.Format("{0:0,0}", value) + " đồng";
+                this.txt_SL.Enabled = true;
+                this.comboBox_TenTP.Enabled = true;
+                this.btn_Themphieunhaphang.Enabled = false;
+                this.btn_NewHD.Enabled = true;
+            }
+        }
+
+        private void dataGridView_CTPNhap_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (this.dataGridView_CTPNhap.Rows.Count > 0)
+            {
+                this.txt_CTMaphieunhaphang.Text = this.dataGridView_CTPNhap.SelectedRows[0].Cells[0].Value.ToString();
+                this.comboBox_TenTP.Text = this.dataGridView_CTPNhap.SelectedRows[0].Cells[2].Value.ToString();
+                this.txt_SL.Text = this.dataGridView_CTPNhap.SelectedRows[0].Cells[3].Value.ToString();
+                this.txt_dongia.Text = this.dataGridView_CTPNhap.SelectedRows[0].Cells[4].Value.ToString();
+            }
+        }
+
+        private void btn_Delete_TP_Click(object sender, EventArgs e)
+        {
+            if (this.comboBox_TenTP.Text != "-------Chọn thực phẩm-------" && txt_SL.Text != "" && this.txt_CTMaphieunhaphang.Text != "")
+            {
+                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa thực phẩm này không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    string str = this.txt_dongia.Text.Replace(" đồng", "");
+                    string dongia = str.Replace(",", "");
+                    int Dongia = Convert.ToInt32(dongia);
+                    DTO.fHoaDonNhapHangDTO.Instance.XoaThucPham(this.txt_CTMaphieunhaphang.Text, this.comboBox_TenTP.Text, int.Parse(this.txt_SL.Text), Dongia);
+                    MessageBox.Show("Xóa món ăn thành công", "Thông báo");
+                    this.comboBox_MANV.Text = "----Chọn mã nhân viên----";
+                    this.combobox_NPP.Text = "---Chọn nhà phân phối---";
+                    this.comboBox_TenTP.Text = "-------Chọn thực phẩm-------";
+                    this.dataGridView_CTPNhap.Rows.Clear();
+                    DTO.fHoaDonNhapHangDTO.Instance.HienThi_CT_PHIEUNHAPTHUCPHAM(dataGridView_CTPNhap, this.txt_CTMaphieunhaphang.Text);
+                    var value = decimal.Parse(DTO.fHoaDonNhapHangDTO.Instance.LAY_THANHTIEN_HOADONNHAPHANG(this.txt_CTMaphieunhaphang.Text));
+                    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                    this.txt_tongtien.Text = String.Format("{0:0,0}", value) + " đồng";
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bạn chưa chọn món ăn để xóa!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void combobox_NPP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_MANV_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void combobox_Phieunhaphang_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_TenTP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void btn_Xoa_Phieu_Click(object sender, EventArgs e)
+        {
+            if (DTO.fHoaDonNhapHangDTO.Instance.KIEMTRA_LOAINV(account) == "addmin")
+            {
+                if (this.txt_CTMaphieunhaphang.Text == New_hoadon)
+                {
+                    DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        DTO.fHoaDonNhapHangDTO.Instance.XOA_PHIEUNHAP_TP(this.txt_CTMaphieunhaphang.Text);
+                        MessageBox.Show("Xóa hóa đơn thành công!", "Thông báo!");
+                        LAY_MAPHIEU_NHAPTP();
+                        loadcombobox();
+                        this.combobox_NPP.Enabled = true;
+                        this.comboBox_MANV.Enabled = true;
+                        this.btn_Themphieunhaphang.Enabled = true;
+                        this.txt_CTMaphieunhaphang.Text = "";
+                        this.comboBox_MANV.Text = "----Chọn mã nhân viên----";
+                        this.combobox_NPP.Text = "---Chọn nhà phân phối---";
+                        this.dataGridView_CTPNhap.Rows.Clear();
+                        New_hoadon = this.combobox_Phieunhaphang.Items[this.combobox_Phieunhaphang.Items.Count - 1].ToString();
+                        this.combobox_Phieunhaphang.Text = "---Tìm kiếm phiếu nhập hàng---";
+                    }
+                }
+                else
+                {
+                    string hoadondautien = this.combobox_Phieunhaphang.Items[0].ToString();
+                    MessageBox.Show("Chỉ xóa được lần lượt từng hóa đơn từ " + New_hoadon + " đến " + hoadondautien + "!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền xóa hóa đơn!", "Thông báo!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_NewHD_Click(object sender, EventArgs e)
+        {
+            LAY_MAPHIEU_NHAPTP();
+            loadcombobox();
+            this.combobox_NPP.Enabled = true;
+            this.comboBox_MANV.Enabled = true;
+            this.btn_Themphieunhaphang.Enabled = true;
+            this.txt_CTMaphieunhaphang.Text = "";
+            this.comboBox_MANV.Text = "----Chọn mã nhân viên----";
+            this.combobox_NPP.Text = "---Chọn nhà phân phối---";
+            this.dataGridView_CTPNhap.Rows.Clear();
+            New_hoadon = this.combobox_Phieunhaphang.Items[this.combobox_Phieunhaphang.Items.Count - 1].ToString();
+            this.combobox_Phieunhaphang.Text = "---Tìm kiếm phiếu nhập hàng---";
+            this.txt_SL.Text = "";
+            this.txt_tongtien.Text = "";
+        }
+
+        private void btn_Close_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

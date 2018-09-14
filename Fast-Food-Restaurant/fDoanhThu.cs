@@ -20,7 +20,6 @@ namespace Fast_Food_Restaurant
 
         private void button_thongke_Click(object sender, EventArgs e)
         {
-            //DTO.fDoanhthuDTO.Instance.themdoanhthu(textBox_thang.Text,textBox_nam.Text);
              DTO.fDoanhthuDTO.Instance.thongke(dataGridView_ngay, textBox_thang.Text, textBox_nam.Text);   
         }
 
